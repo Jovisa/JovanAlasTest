@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -32,16 +32,22 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<TeacherDTO> findAll() {
-        return null;
+        return teacherRepository.findAll().stream().map(i -> teacherMapper.transformToDTO(i)).collect(Collectors.toList());
     }
 
     @Override
     public TeacherDTO save(TeacherDTO teacherDTO) {
-        return null;
+        Teacher teacher = teacherMapper.transformToEntity(teacherDTO);
+        return teacherMapper.transformToDTO(teacherRepository.save(teacher));
     }
 
     @Override
     public void remove(Integer id) throws IllegalArgumentException {
+        Optional<Teacher> student = teacherRepository.findById(id);
+        if (!student.isPresent()) {
+            throw new IllegalArgumentException("Teacher with the following id = " + id + " is not found.");
+        }
+        teacherRepository.deleteById(id);
     }
 
     @Override
