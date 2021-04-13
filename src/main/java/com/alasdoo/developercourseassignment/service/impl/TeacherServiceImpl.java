@@ -43,8 +43,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void remove(Integer id) throws IllegalArgumentException {
-        Optional<Teacher> student = teacherRepository.findById(id);
-        if (!student.isPresent()) {
+        Optional<Teacher> teacher = teacherRepository.findById(id);
+        if (!teacher.isPresent()) {
             throw new IllegalArgumentException("Teacher with the following id = " + id + " is not found.");
         }
         teacherRepository.deleteById(id);
@@ -52,7 +52,16 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDTO update(Integer id, TeacherDTO teacherDTO) {
-        return null;
+        Optional<Teacher> oldTeacher = teacherRepository.findById(id);
+        if (!oldTeacher.isPresent()) {
+            throw new IllegalArgumentException
+                ("Teacher with the following id = " + id + " is not found.");
+        }
+        oldTeacher.get().setTeacherName(teacherDTO.getTeacherName());
+        oldTeacher.get().setTeacherSurname(teacherDTO.getTeacherSurname());
+        oldTeacher.get().setTeacherEmail(teacherDTO.getTeacherEmail());
+        teacherRepository.save(oldTeacher.get());
+        return teacherMapper.transformToDTO(oldTeacher.get());
     }
 
     @Override
