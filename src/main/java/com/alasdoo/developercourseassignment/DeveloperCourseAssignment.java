@@ -23,7 +23,22 @@ public class DeveloperCourseAssignment {
 
         SpringApplication.run(DeveloperCourseAssignment.class, args);
 
+        /*
+        String projectPath = System.getProperty("user.dir");
+        System.setProperty("webdriver.gecko.driver", projectPath + "\\drivers\\geckodriver\\geckodriver.exe");
+         
+        WebDriverManager.firefoxdriver().setup();
+        WebDriver driver = new FirefoxDriver();
+        
 
+        driver.get("http://localhost:3000");
+        
+       WebElement Settings =  driver.findElement(By.linkText("Settings"));
+       Settings.click();
+       
+       WebElement StartButton = driver.findElement(By.tagName("button"));
+       StartButton.click();
+        */
     }
 
     /*@Bean
